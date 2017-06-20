@@ -1,0 +1,397 @@
+body {
+
+	color: black;
+
+	background-color:white;
+
+}
+
+.border { 
+	border-width: 0px;
+	border-color: white; 
+	border-style: solid; 
+} 
+
+
+h3 {
+	margin:0;
+	font-size:3vmin;
+}
+
+h4 {
+	margin:0;
+	padding-bottom:1em;
+	font-size:5vmin;
+}
+
+/* New Stuff */
+.Xoverlay-content {
+    position: relative;
+    top: 5%;
+    width: 100%;
+    color: white;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.Xoverlay a {
+    padding: 4px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #adffdd;
+    display: block;
+    transition: 0.3s;
+}
+
+.Xoverlay a:hover, .overlay a:focus {
+    color: #ffffff;
+}
+
+.Xoverlay .closebtn {
+    position: absolute;
+    top: 0px;
+    right: 35px;
+    color: #818181;
+    font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .Xoverlay a {font-size: 20px}
+  .Xoverlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+.outer, .inner {
+    display: block;
+}
+
+.outer {
+    /* specify fixed width */
+    width: 300px;
+    padding: 0;
+}
+
+.inner {
+    /* specify padding, can be changed while remaining fixed width of .outer */
+    padding: .1px;
+}
+
+.buttonAbout {
+    background-color: rgba(0, 0, 0, .4); 
+    box-shadow: inset 0 0 0 3px #FFFFFF; /* Box Border */
+    position: fixed;
+    z-index: 10px;
+    cursor:pointer;
+    border: none;
+    color: white;
+    padding: 4px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.buttonAbout:hover {
+    background-color: #F0B4D2;
+    color: white;
+}
+
+#Xoverlay-content {
+	text-align:center;
+	opacity:0;
+color:white;
+	-webkit-transition-property: opacity; /* Safari */
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-property: opacity;
+    transition-duration: 0.4s;
+}
+
+
+#myNav {
+	    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    right: 0;
+    background-color: rgb(0,0,0);
+/*    background-color: rgba(0,0,0, 0.9); Transparent fourt variable */
+    overflow-x: hidden;
+	
+		transition-property: width;
+    transition: 0.4s;
+	-webkit-transition-property: width; /* Safari */
+    -webkit-transition: 0.4s; /* For Safari */
+}
+
+#spectraVisualizationUL li{
+
+	margin: 0 0;
+
+}
+
+
+
+#spectraVisualizationUL {
+
+	list-style: none;
+	margin:0;
+	padding: 0px;
+
+}
+
+
+
+
+#spectrum2jpg {
+
+	z-index:1;
+
+	position:fixed;
+
+    top: .7vmax;
+
+    right: 1vmax; 
+	
+	opacity: 0.65;  
+	
+	transition:opacity 0.3s; /* Animation time */
+
+    -webkit-transition:opacity 0.3s; /* For Safari */
+
+}
+
+#goHome {
+	font-size:1.15em;
+
+	z-index:4;
+
+	position:fixed;
+
+    top: .3vmax;
+
+    left: .9vmax; 
+	
+	opacity: 0.65;  
+	
+	transition:opacity 0.3s; /* Animation time */
+
+    -webkit-transition:opacity 0.3s; /* For Safari */
+
+}
+
+@media(max-width: 767px)
+{
+	#goHome 
+	{
+		    top: .1vmax;
+	}
+	#spectrum2jpg {
+		top: 1.3vmax;
+	}
+}
+
+#goHome:hover {
+
+	opacity: 1;
+
+}
+
+#spectrum2jpg:hover {
+	opacity: 1;  
+
+}
+
+#photoPreview {
+	max-height:70vh;
+	width:100%;
+		    box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+    -moz-box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+    -webkit-box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+}
+
+
+
+#photoFrame {
+
+	padding:3vmax;
+
+	background: black;
+
+	border: .4vmax solid white;
+
+	    box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+    -moz-box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+    -webkit-box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+}
+
+
+
+#colorsContainer {
+
+	   box-sizing: border-box;
+
+    -moz-box-sizing: border-box;
+
+    -webkit-box-sizing: border-box;
+
+	margin-top:3vmax;
+
+	height:6vmax;
+
+	width:100%;
+
+	background: white;
+
+    border: .2vmax solid white;
+
+    position:relative;
+
+    box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+    -moz-box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+    -webkit-box-shadow: 0px 0px 21px rgba(0, 0, 0, 0.99);
+
+}
+
+
+#canvas {
+
+
+}
+
+
+
+#domCircle {
+
+	width: 19%;
+
+}
+
+
+.modal {
+		padding-right: 0px !important;
+}
+
+.modal-open {
+	padding-right: 0px !important;
+    overflow-y: scroll;
+}
+
+.arrow {
+	visibility:hidden;
+    color: white;
+}
+
+
+
+.col-xs-1 {
+	text-align:center;
+	font-size:2.6vmin;
+}
+
+
+
+.avgColorImg {
+
+	width: 100% ;
+
+  margin-left: auto ;
+
+  margin-right: auto ;
+
+    transition:width 0.3s; /* Animation time */
+
+    -webkit-transition:width 0.3s; /* For Safari */
+
+}
+
+
+
+.avgColorImg:hover {
+
+    width: 90%;
+
+}
+
+
+
+.container-fluid .row {
+
+    margin: 0px !important;
+
+}
+
+
+
+.fill {
+
+    overflow: hidden;
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-image: url('path/to/image.jpg');
+
+}
+
+
+
+.modal-content  {
+
+    -webkit-border-radius: 0px !important;
+
+    -moz-border-radius: 0px !important;
+
+    border-radius: 0px !important; 
+
+}
+
+
+
+.fa {
+
+	color:white;
+
+	font-size:3em !important;
+
+}
+
+
+
+.circles {
+
+    background-color: azure;
+
+    height: 100%;
+
+    width: 9%;
+
+    /*Aligns in row*/
+
+    float:left;
+
+		border: .2vmax solid white;
+
+}
+
+
+
+.container-fluid .row {
+
+    margin: 0px !important;
+
+}

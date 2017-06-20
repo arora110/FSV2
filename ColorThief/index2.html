@@ -1,0 +1,161 @@
+<html>
+<head>
+    <link rel="stylesheet" href="stylesheet.css" type="text/css">
+    <script src="src/color-thief.js"></script>
+    <script src="examples/js/jquery.js"></script>
+    <script src="examples/js/mustache.js"></script>
+    <script src="examples/js/demo.js"></script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <p id="demo"></p>
+    <img id='GoT' src = './image-7.jpeg'>
+    <h2>Dominant Color:</h2>
+    <div id=domCircle> </div>
+    <h2>Color Palette:</h2>
+    <div id=circle1> </div>
+    <div id=circle2> </div>
+    <div id=circle3> </div>
+    <div id=circle4> </div>
+    <div id=circle5> </div>
+    <div id=circle6> </div>
+    <div id=circle7> </div>
+    <div id=circle8> </div>
+    <div id=circle9> </div>
+    <br><br><br><br><br><br><br><br>
+    <script src="src/color-thief.js"></script>
+    <script>
+        // Hiding the image that is displayed when I create img variable^^
+        $('#GoT').hide();
+        
+        // Creates a canvas and displays the image assigned to 'GoT' variable
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        canvas.width = GoT.width;
+        canvas.height = GoT.height;
+        context.drawImage(GoT, 0, 0 );
+        
+        // Contains RGB values for each pixel in giant array
+        var myData = context.getImageData(0, 0, canvas.width, canvas.height);
+        var data = myData.data;
+        
+        // These two functions convert an RGB value to HEX
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+        
+        // I changed the parameter/calls of this funciton to take in/reference an array. Aw yea.
+        function rgbToHex(arr) {
+            return "#" + componentToHex(arr[0]) + componentToHex(arr[1]) + componentToHex(arr[2]);
+        }
+        
+        // Creates new Color Thief object
+        var colorThief = new ColorThief();
+        
+        // Gets the 9 most common colors in the image. Stores the RGB values into an array of dim. 9x3
+        var rgbVals = colorThief.getPalette(GoT, 10);
+    
+        // Modified a function I found online that sorts colors by Hue 
+        // https://era86.github.io/2011/11/15/grouping-html-hex-colors-by-hue-in.html
+        var sortColors = function(colors) {
+        for (var c = 0; c < 9; c++) {
+            /* Gets RGB vales */
+            var r = colors[c][0];
+            var g = colors[c][1];
+            var b = colors[c][2];
+            
+            /* Getting the Max and Min values for Chroma. */
+            var max = Math.max.apply(Math, colors[c]);
+            var min = Math.min.apply(Math, colors[c]);
+
+            /* Variables for HSV value of hex color. */
+            var chr = max-min;
+            var hue = 0;
+            var val = max;
+            var sat = 0;
+
+            if (val > 0) {
+              /* Calculate Saturation only if Value isn't 0. */
+              sat = chr/val;
+              if (sat > 0) {
+                if (r == max) { 
+                  hue = 60*(((g-min)-(b-min))/chr);
+                  if (hue < 0) {hue += 360;}
+                } else if (g == max) { 
+                  hue = 120+60*(((b-min)-(r-min))/chr); 
+                } else if (b == max) { 
+                  hue = 240+60*(((r-min)-(g-min))/chr); 
+                }
+              }
+            }
+
+            /* Modifies existing objects by adding HSV values. */
+            colors[c].hue = hue;
+            colors[c].sat = sat;
+            colors[c].val = val;
+          }
+
+          /* Sort by Hue. */
+          return colors.sort(function(a,b){return a.hue - b.hue;});
+        }
+
+        // DONAVIN COMMENT OUT THIS LINE OF TEXT BELOW TO SEE WHAT THE HUE SORTING IS DOING
+        rgbVals = sortColors(rgbVals);
+        
+        // Converts rgbVals to hexVals
+        var hexVals = [rgbToHex(rgbVals[0]), rgbToHex(rgbVals[1]), rgbToHex(rgbVals[2]), rgbToHex(rgbVals[3]), rgbToHex(rgbVals[4]), rgbToHex(rgbVals[5]), rgbToHex(rgbVals[6]), rgbToHex(rgbVals[7]), rgbToHex(rgbVals[8])];
+        console.log(rgbToHex);
+        
+        var tolerance = 40;
+        var rank = [0,0,0,0,0,0,0,0,0];
+        
+        // Find distance between current pixel's RGB and nearest color's RGB from color palette. 
+        // Checks if if distance is under threshold and update ranks. This is so that there are 
+        // no overlaps - colors in color palette aren't incremented simultaneously if they are 
+        // both close to current color
+        
+//        for (var i =0; i < data.length; i +=100) {
+//            var closestColor = 0;
+//            var distanceOfClosestColor = Math.abs(rgbVals[0][0] - data[i]) + Math.abs(rgbVals[0][1] - data[i+1]) + Math.abs(rgbVals[0][2] - data[i+2]);
+//            for (var j = 1; j < 5; j++) {
+//                var newDistance = Math.abs(rgbVals[j][0] - data[i]) + Math.abs(rgbVals[j][1] - data[i+1]) + Math.abs(rgbVals[j][2] - data[i+2]);
+//                if (newDistance < distanceOfClosestColor) {
+//                    distanceOfClosestColor = newDistance;
+//                    closestColor = j;
+//                }
+//            }
+//            console.log(distanceOfClosestColor);
+//            console.log(closestColor);
+//            if (distanceOfClosestColor < 50) {
+//                rank[closestColor]++;
+//            }
+//        }
+//        
+//        console.log(rank);
+//        var sum = 0;
+//        for (var i = 0; i < 5; i++) {
+//            sum += rank[i];
+//        }
+//        for (var i = 0; i < 5; i++) {
+//            rank[i] = (rank[i]/sum)*100;
+//        }
+//        console.log(rank);
+        
+        //Changes background color of the circles to the colorPalette
+        document.getElementById("circle1").style.backgroundColor = hexVals[0];
+        document.getElementById("circle2").style.backgroundColor = hexVals[1];
+        document.getElementById("circle3").style.backgroundColor = hexVals[2];
+        document.getElementById("circle4").style.backgroundColor = hexVals[3];
+        document.getElementById("circle5").style.backgroundColor = hexVals[4];
+        document.getElementById("circle6").style.backgroundColor = hexVals[5];
+        document.getElementById("circle7").style.backgroundColor = hexVals[6];
+        document.getElementById("circle8").style.backgroundColor = hexVals[7];
+        document.getElementById("circle9").style.backgroundColor = hexVals[8];
+        
+        //Assigns Dominant Color (Skips Hex/RGB array steps) 
+        document.getElementById("domCircle").style.backgroundColor = rgbToHex(colorThief.getColor(GoT));
+    </script> 
+    <h1>Houston, we don't have a problem.</h1>
+</body>
+</html>

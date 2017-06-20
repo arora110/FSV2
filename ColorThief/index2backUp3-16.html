@@ -1,0 +1,102 @@
+<html>
+<head>
+    <link rel="stylesheet" href="stylesheet.css" type="text/css">
+    <script src="src/color-thief.js"></script>
+    <script src="examples/js/jquery.js"></script>
+    <script src="examples/js/mustache.js"></script>
+    <script src="examples/js/demo.js"></script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <p id="demo"></p>
+    <img id='GoT' src = './image-9.jpeg'>
+    <h2>Dominant Color:</h2>
+    <div id=domCircle> </div>
+    <h2>Color Palette:</h2>
+    <div id=circle1> </div>
+    <div id=circle2> </div>
+    <div id=circle3> </div>
+    <div id=circle4> </div>
+    <div id=circle5> </div>
+    <div id=circle6> </div>
+    <div id=circle7> </div>
+    <div id=circle8> </div>
+    <div id=circle9> </div>
+    <br><br><br><br><br><br><br><br>
+    <script src="src/color-thief.js"></script>
+    <script>
+        //Hiding the image that is displayed when I create img variable^^
+        $('#GoT').hide();
+        
+        //Creates a canvas and displays the image assigned to 'GoT' variable
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        canvas.width = GoT.width;
+        canvas.height = GoT.height;
+        context.drawImage(GoT, 0, 0 );
+        
+        // Contains RGB values for each pixel in giant array
+        var myData = context.getImageData(0, 0, canvas.width, canvas.height);
+        //console.log(myData);
+        
+        
+
+        document.write(myData.length);
+        for (var i = 0; i < myData.data.length; i += 100) {
+            console.log("Check 2");
+            var red = myData[i]; // red
+            var green = myData[i + 1]; // green
+            var blue = myData[i + 2]; // blue
+            //i+3 is alpha (the fourth element)
+            //Below code should interchange RGB values, and adjust canvas... :(
+            myData[i] = green;
+            myData[i + 1] = blue;
+            myData[i + 2] = red;
+        }
+        context.putImageData(myData,0,0);
+        
+        
+        
+        
+        
+        
+        //These two functions convert an RGB value to HEX
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+        
+        //I changed the parameter/calls of this funciton to take in/regerence an array. Aw yea.
+        function rgbToHex(arr) {
+            return "#" + componentToHex(arr[0]) + componentToHex(arr[1]) + componentToHex(arr[2]);
+        }
+        
+        //Creates new Color Thief object
+        var colorThief = new ColorThief();
+        
+        //Gets the 9 most common colors in the image. Stores the RGB values into an array of dim. 9x3
+        var rgbVals = colorThief.getPalette(GoT, 10);
+        
+        var hexVals = [rgbToHex(rgbVals[0]), rgbToHex(rgbVals[1]), rgbToHex(rgbVals[2]), rgbToHex(rgbVals[3]), rgbToHex(rgbVals[4]), rgbToHex(rgbVals[5]), rgbToHex(rgbVals[6]), rgbToHex(rgbVals[7]), rgbToHex(rgbVals[8])];
+        console.log(rgbToHex);
+        //Prints rgbVals / hexVals
+        //document.getElementById("demo").innerHTML = rgbVals;
+        //document.getElementById("demo").innerHTML = hexVals;
+        
+        //Changes background color of the circles to colorPalette
+        document.getElementById("circle1").style.backgroundColor = hexVals[0];
+        document.getElementById("circle2").style.backgroundColor = hexVals[1];
+        document.getElementById("circle3").style.backgroundColor = hexVals[2];
+        document.getElementById("circle4").style.backgroundColor = hexVals[3];
+        document.getElementById("circle5").style.backgroundColor = hexVals[4];
+        document.getElementById("circle6").style.backgroundColor = hexVals[5];
+        document.getElementById("circle7").style.backgroundColor = hexVals[6];
+        document.getElementById("circle8").style.backgroundColor = hexVals[7];
+        document.getElementById("circle9").style.backgroundColor = hexVals[8];
+        
+        //Assigns Dominant Color (Skips Hex/RGB array steps) 
+        document.getElementById("domCircle").style.backgroundColor = rgbToHex(colorThief.getColor(GoT));
+    </script> 
+    <h1>Houston, we don't have a problem.</h1>
+</body>
+</html>
